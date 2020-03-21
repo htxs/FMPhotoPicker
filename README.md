@@ -77,7 +77,7 @@ self.present(editor, animated: true)
 ## Delegation methods
 - Implement FMPhotoPickerViewControllerDelegate protocol to handle selected images  
 ```swift
-func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage])
+func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith medias: ([UIImage], [URL]))
 ```
 
 - Implement FMImageEditorViewControllerDelegate protocol to handle ouput image

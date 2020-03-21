@@ -126,6 +126,7 @@ class FMPhotoPresenterViewController: UIViewController {
                     photoVC.reloadPhoto(complete: viewDidUpdate)
                 }
             }
+            editorVC.modalPresentationStyle = .fullScreen
             self.present(editorVC, animated: false, completion: nil)
         }
         

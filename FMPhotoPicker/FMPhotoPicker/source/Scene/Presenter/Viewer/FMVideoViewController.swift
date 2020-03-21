@@ -93,10 +93,9 @@ class FMVideoViewController: FMPhotoViewController {
                 let playerItem = AVPlayerItem(asset: avAsset)
                 self.player = AVPlayer(playerItem: playerItem)
                 
-                self.playerController = AVPlayerViewController()
-                self.playerController?.player = self.player
-                
                 DispatchQueue.main.async {
+                    self.playerController = AVPlayerViewController()
+                    self.playerController?.player = self.player
                     self.playerController?.view.frame = self.view.frame
                     self.playerController?.showsPlaybackControls = false
                 }

@@ -11,7 +11,7 @@ import Photos
 
 // MARK: - Delegate protocol
 public protocol FMPhotoPickerViewControllerDelegate: class {
-    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage])
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith medias: ([UIImage], [URL]))
 }
 
 public class FMPhotoPickerViewController: UIViewController {
@@ -155,24 +155,41 @@ public class FMPhotoPickerViewController: UIViewController {
     private func processDetermination() {
         FMLoadingView.shared.show()
         
-        var dict = [Int:UIImage]()
+        var photoDict = [Int:UIImage]()
+        var mediaURLDict = [Int:URL]()
         
         DispatchQueue.global(qos: .userInitiated).async {
             let multiTask = DispatchGroup()
             for (index, element) in self.dataSource.getSelectedPhotos().enumerated() {
-                multiTask.enter()
-                element.requestFullSizePhoto(cropState: .edited, filterState: .edited) {
-                    guard let image = $0 else { return }
-                    dict[index] = image
-                    multiTask.leave()
+                if element.mediaType == .image {
+                    multiTask.enter()
+                    element.requestFullSizePhoto(cropState: .edited, filterState: .edited) {
+                        guard let image = $0 else {
+                            multiTask.leave()
+                            return
+                        }
+                        photoDict[index] = image
+                        multiTask.leave()
+                    }
+                } else if let asset = element.asset {
+                    multiTask.enter()
+                    Helper.requestVideoURL(forAsset: asset) {
+                        guard let url = $0 else {
+                            multiTask.leave()
+                            return
+                        }
+                        mediaURLDict[index] = url
+                        multiTask.leave()
+                    }
                 }
             }
             multiTask.wait()
             
-            let result = dict.sorted(by: { $0.key < $1.key }).map { $0.value }
+            let photos = photoDict.sorted(by: { $0.key < $1.key }).compactMap { $0.value }
+            let videos = mediaURLDict.sorted(by: { $0.key < $1.key }).compactMap { $0.value }
             DispatchQueue.main.async {
                 FMLoadingView.shared.hide()
-                self.delegate?.fmPhotoPickerController(self, didFinishPickingPhotoWith: result)
+                self.delegate?.fmPhotoPickerController(self, didFinishPickingPhotoWith: (photos, videos))
             }
         }
     }
@@ -300,7 +317,7 @@ extension FMPhotoPickerViewController: UICollectionViewDelegate {
         
         vc.view.frame = self.view.frame
         vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .custom
+        vc.modalPresentationStyle = .fullScreen
         vc.modalPresentationCapturesStatusBarAppearance = true
         self.present(vc, animated: true)
     }

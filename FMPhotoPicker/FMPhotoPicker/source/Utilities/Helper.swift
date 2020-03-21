@@ -71,7 +71,7 @@ class Helper: NSObject {
             
             if asset!.isKind(of: AVComposition.self){
                 let avCompositionAsset = asset as! AVComposition
-                if avCompositionAsset.tracks.count > 1{
+                if avCompositionAsset.tracks.count > 1 {
                     let exporter = AVAssetExportSession(asset: avCompositionAsset, presetName: AVAssetExportPresetHighestQuality)
                     exporter!.outputURL = self.fetchOutputURL()
                     exporter!.outputFileType = .mp4
@@ -82,6 +82,8 @@ class Helper: NSObject {
                             complete(url)
                         }
                     }
+                } else {
+                    complete(nil)
                 }
             } else {
                 // Normal video, are stored as AVAssetURL
