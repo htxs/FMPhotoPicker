@@ -157,8 +157,8 @@ class FMPhotoPresenterViewController: UIViewController {
         }
         
         // set button title
-        self.backButton.setTitle(config.strings["present_button_back"], for: .normal)
-        self.backButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
+        // self.backButton.setTitle(config.strings["present_button_back"], for: .normal)
+        // self.backButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
         
         self.determineButton.setTitle(config.strings["picker_button_select_done"], for: .normal)
         self.determineButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)

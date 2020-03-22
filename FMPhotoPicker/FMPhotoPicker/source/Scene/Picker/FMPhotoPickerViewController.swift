@@ -104,24 +104,7 @@ public class FMPhotoPickerViewController: UIViewController {
         if Helper.canAccessPhotoLib() {
             self.fetchPhotos()
         } else {
-            let okAction = UIAlertAction(
-                title: config.strings["permission_button_ok"],
-                style: .default) { (_) in
-                    Helper.requestAuthorizationForPhotoAccess(authorized: self.fetchPhotos, rejected: Helper.openIphoneSetting)
-            }
-
-            let cancelAction = UIAlertAction(
-                title: config.strings["permission_button_cancel"],
-                style: .cancel,
-                handler: nil)
-
-            Helper.showDialog(
-                in: self,
-                okAction: okAction,
-                cancelAction: cancelAction,
-                title: config.strings["permission_dialog_title"],
-                message: config.strings["permission_dialog_message"]
-                )
+            Helper.requestAuthorizationForPhotoAccess(authorized: self.fetchPhotos, rejected: Helper.openIphoneSetting)
         }
     }
     
@@ -250,23 +233,30 @@ extension FMPhotoPickerViewController: UICollectionViewDataSource {
 
             var canBeAdded = true
             
-            switch fmMediaType {
-            case .image:
-                if self.dataSource.countSelectedPhoto(byType: .image) >= self.config.maxImage {
-                    canBeAdded = false
-                    let warning = FMWarningView.shared
-                    warning.message = String(format: config.strings["picker_warning_over_image_select_format"]!, self.config.maxImage)
-                    warning.showAndAutoHide()
+            if self.dataSource.getSelectedPhotos().count >= self.config.maxImageAndVideo {
+                canBeAdded = false
+                let warning = FMWarningView.shared
+                warning.message = String(format: config.strings["picker_warning_over_image_and_video_select_format"]!, self.config.maxImageAndVideo)
+                warning.showAndAutoHide()
+            } else {
+                switch fmMediaType {
+                case .image:
+                    if self.dataSource.countSelectedPhoto(byType: .image) >= self.config.maxImage {
+                        canBeAdded = false
+                        let warning = FMWarningView.shared
+                        warning.message = String(format: config.strings["picker_warning_over_image_select_format"]!, self.config.maxImage)
+                        warning.showAndAutoHide()
+                    }
+                case .video:
+                    if self.dataSource.countSelectedPhoto(byType: .video) >= self.config.maxVideo {
+                        canBeAdded = false
+                        let warning = FMWarningView.shared
+                        warning.message = String(format: config.strings["picker_warning_over_video_select_format"]!, self.config.maxVideo)
+                        warning.showAndAutoHide()
+                    }
+                case .unsupported:
+                    break
                 }
-            case .video:
-                if self.dataSource.countSelectedPhoto(byType: .video) >= self.config.maxVideo {
-                    canBeAdded = false
-                    let warning = FMWarningView.shared
-                    warning.message = String(format: config.strings["picker_warning_over_video_select_format"]!, self.config.maxVideo)
-                    warning.showAndAutoHide()
-                }
-            case .unsupported:
-                break
             }
             
             if canBeAdded {

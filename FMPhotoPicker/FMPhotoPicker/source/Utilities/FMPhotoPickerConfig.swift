@@ -47,6 +47,7 @@ public struct FMPhotoPickerConfig {
     public var selectMode: FMSelectMode = .multiple
     public var maxImage: Int = 10
     public var maxVideo: Int = 10
+    public var maxImageAndVideo: Int = 20
     public var availableFilters: [FMFilterable] = kDefaultAvailableFilters
     public var availableCrops: [FMCroppable] = kDefaultAvailableCrops
     public var alertController: FMAlertable = FMAlert()
@@ -57,19 +58,20 @@ public struct FMPhotoPickerConfig {
     public var titleFontSize: CGFloat = 17
     
     public var strings: [String: String] = [
-        "picker_button_cancel":                     "Cancel",
-        "picker_button_select_done":                "Done",
-        "picker_warning_over_image_select_format":  "You can select maximum %d images",
-        "picker_warning_over_video_select_format":  "You can select maximum %d videos",
+        "picker_button_cancel":                     "取消",
+        "picker_button_select_done":                "完成",
+        "picker_warning_over_image_select_format":  "你最多能添加%d张照片哦",
+        "picker_warning_over_video_select_format":  "你最多能添加%d个视频哦",
+        "picker_warning_over_image_and_video_select_format":  "你最多能添加%d张照片/视频哦",
         
         "present_title_photo_created_date_format":  "yyyy/M/d",
         "present_button_back":                      "Back",
-        "present_button_edit_image":                "Edit",
+        "present_button_edit_image":                "编辑",
         
-        "editor_button_cancel":                     "Cancel",
-        "editor_button_done":                       "Done",
-        "editor_menu_filter":                       "Filter",
-        "editor_menu_crop":                         "Crop",
+        "editor_button_cancel":                     "取消",
+        "editor_button_done":                       "完成",
+        "editor_menu_filter":                       "滤镜",
+        "editor_menu_crop":                         "裁剪",
         "editor_menu_crop_button_reset":            "Reset",
         "editor_menu_crop_button_rotate":           "Rotate",
         
@@ -79,11 +81,6 @@ public struct FMPhotoPickerConfig {
         "editor_crop_ratioCustom":                  "Custom",
         "editor_crop_ratioOrigin":                  "Origin",
         "editor_crop_ratioSquare":                  "Square",
-
-        "permission_dialog_title":                  "FMPhotoPicker",
-        "permission_dialog_message":                "FMPhotoPicker wants to access Photo Library",
-        "permission_button_ok":                     "OK",
-        "permission_button_cancel":                 "Cancel"
     ]
     
     public init() {
