@@ -306,7 +306,7 @@ extension FMPhotoPickerViewController: UICollectionViewDelegate {
         }
         
         vc.view.frame = self.view.frame
-        vc.transitioningDelegate = self
+        // vc.transitioningDelegate = self
         vc.modalPresentationStyle = .fullScreen
         vc.modalPresentationCapturesStatusBarAppearance = true
         self.present(vc, animated: true)

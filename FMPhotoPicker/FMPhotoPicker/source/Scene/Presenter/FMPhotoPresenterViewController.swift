@@ -103,6 +103,7 @@ class FMPhotoPresenterViewController: UIViewController {
         
         // Init bottom view
         self.bottomView = FMPresenterBottomView(config: config)
+        /*
         swipeInteractionController = FMPhotoInteractionAnimator(viewController: self)
         
         self.bottomView.touchBegan = { [unowned self] in
@@ -111,6 +112,7 @@ class FMPhotoPresenterViewController: UIViewController {
         self.bottomView.touchEnded = { [unowned self] in
             self.swipeInteractionController?.enable()
         }
+         */
         self.bottomView.onTapEditButton = { [unowned self] in
             guard let photo = self.dataSource.photo(atIndex: self.currentPhotoIndex),
                 let vc = self.pageViewController.viewControllers?.first as? FMPhotoViewController,
