@@ -64,7 +64,7 @@ public struct FMPhotoPickerConfig {
         "picker_button_select_done":                "完成",
         "picker_warning_over_image_select_format":  "你最多能添加%d张照片哦",
         "picker_warning_over_video_select_format":  "你最多能添加%d个视频哦",
-        "picker_warning_over_image_and_video_select_format":  "你最多能添加%d张照片/视频哦",
+        "picker_warning_over_image_and_video_select_format":  "已经达到照片/视频的最大数啦~",
         
         "present_title_photo_created_date_format":  "yyyy/M/d",
         "present_button_back":                      "Back",
