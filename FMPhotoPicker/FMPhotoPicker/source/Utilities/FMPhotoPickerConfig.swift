@@ -58,6 +58,8 @@ public struct FMPhotoPickerConfig {
     public var titleFontSize: CGFloat = 17
     
     public var strings: [String: String] = [
+        "albums_title":                             "相册",
+        "all_albums_title":                         "所有照片",
         "picker_button_cancel":                     "取消",
         "picker_button_select_done":                "完成",
         "picker_warning_over_image_select_format":  "你最多能添加%d张照片哦",

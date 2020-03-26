@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FMPhotoPickerViewController" customModule="FMPhotoPicker" customModuleProvider="target">
             <connections>
+                <outlet property="albumTitleLabel" destination="9RD-ac-361" id="wf8-vA-vfZ"/>
                 <outlet property="cancelButton" destination="rww-s4-oBC" id="Gz8-I7-XQc"/>
                 <outlet property="determineButton" destination="H3N-tL-aam" id="ULu-19-eTW"/>
                 <outlet property="imageCollectionView" destination="OL2-Hq-SBY" id="OEv-0k-kpd"/>
                 <outlet property="numberOfSelectedPhoto" destination="WUE-Oy-OeG" id="HpE-Xa-SeM"/>
                 <outlet property="numberOfSelectedPhotoContainer" destination="Sev-Wd-rWB" id="D5a-HJ-83x"/>
+                <outlet property="titleView" destination="eOs-x5-4yF" id="9Bc-h3-HoM"/>
                 <outlet property="view" destination="iN0-l3-epB" id="8uH-TI-1jl"/>
             </connections>
         </placeholder>
@@ -59,7 +59,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sev-Wd-rWB">
-                            <rect key="frame" x="274" y="8.5" width="28" height="28"/>
+                            <rect key="frame" x="274" y="8" width="28" height="28"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUE-Oy-OeG">
                                     <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
@@ -78,18 +78,35 @@
                                 <constraint firstItem="WUE-Oy-OeG" firstAttribute="top" secondItem="Sev-Wd-rWB" secondAttribute="top" id="q5T-hx-GYu"/>
                             </constraints>
                         </view>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eOs-x5-4yF">
+                            <rect key="frame" x="146" y="0.0" width="83.5" height="44"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所有照片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9RD-ac-361">
+                                    <rect key="frame" x="0.0" y="0.0" width="65.5" height="44"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="ef1-Zg-KyU">
+                                    <rect key="frame" x="70.5" y="0.0" width="13" height="44"/>
+                                </imageView>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="H3N-tL-aam" firstAttribute="centerY" secondItem="mWw-fw-Ht8" secondAttribute="centerY" id="1pv-kR-UgF"/>
+                        <constraint firstItem="eOs-x5-4yF" firstAttribute="bottom" secondItem="E6H-Nj-HHC" secondAttribute="bottom" id="8A0-nn-uz8"/>
                         <constraint firstItem="Sev-Wd-rWB" firstAttribute="centerY" secondItem="H3N-tL-aam" secondAttribute="centerY" id="DDN-Sb-kfO"/>
                         <constraint firstItem="rww-s4-oBC" firstAttribute="centerY" secondItem="mWw-fw-Ht8" secondAttribute="centerY" id="FuB-sZ-gfA"/>
+                        <constraint firstItem="eOs-x5-4yF" firstAttribute="top" secondItem="E6H-Nj-HHC" secondAttribute="top" id="MV3-Ro-Tz0"/>
                         <constraint firstAttribute="trailing" secondItem="H3N-tL-aam" secondAttribute="trailing" constant="16" id="NHF-Pi-wfv"/>
                         <constraint firstAttribute="trailing" secondItem="Nuy-qK-tEa" secondAttribute="trailing" id="Rnr-ti-N7u"/>
                         <constraint firstItem="rww-s4-oBC" firstAttribute="leading" secondItem="mWw-fw-Ht8" secondAttribute="leading" constant="16" id="TDf-Ee-gOL"/>
                         <constraint firstAttribute="bottom" secondItem="Nuy-qK-tEa" secondAttribute="bottom" id="Tzw-BN-g16"/>
                         <constraint firstItem="Nuy-qK-tEa" firstAttribute="leading" secondItem="mWw-fw-Ht8" secondAttribute="leading" id="UfX-h1-B4W"/>
                         <constraint firstAttribute="height" constant="44" id="fbf-ig-YUX"/>
+                        <constraint firstItem="eOs-x5-4yF" firstAttribute="centerX" secondItem="E6H-Nj-HHC" secondAttribute="centerX" id="kLJ-B6-uC9"/>
                         <constraint firstItem="H3N-tL-aam" firstAttribute="leading" secondItem="Sev-Wd-rWB" secondAttribute="trailing" constant="16" id="ys2-tC-mrn"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="E6H-Nj-HHC"/>
@@ -116,4 +133,7 @@
             <point key="canvasLocation" x="-52.5" y="29.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="arrow_down" width="13" height="8"/>
+    </resources>
 </document>

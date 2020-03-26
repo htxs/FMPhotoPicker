@@ -36,6 +36,8 @@ class FMPresenterBottomView: UIView {
     init(config: FMPhotoPickerConfig) {
         playbackControlView = FMPlaybackControlView()
         editMenuView = FMPresenterEditMenuView(config: config)
+        playbackControlView.isHidden = true
+        editMenuView.isHidden = true
         super.init(frame: .zero)
         
         self.addSubview(playbackControlView)

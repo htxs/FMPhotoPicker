@@ -21,6 +21,8 @@ public class FMPhotoPickerViewController: UIViewController {
     @IBOutlet weak var numberOfSelectedPhoto: UILabel!
     @IBOutlet weak var determineButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet var titleView: UIStackView!
+    @IBOutlet var albumTitleLabel: UILabel!
     
     // MARK: - Public
     public weak var delegate: FMPhotoPickerViewControllerDelegate? = nil
@@ -33,6 +35,8 @@ public class FMPhotoPickerViewController: UIViewController {
     private var presentedPhotoIndex: Int?
 
     private let config: FMPhotoPickerConfig
+    private let albumsManager: FMAlbumsManager
+    private var selectedAlbum: FMAlbum?
     
     // The controller for multiple select/deselect
     private lazy var batchSelector: FMPhotoPickerBatchSelector = {
@@ -51,6 +55,7 @@ public class FMPhotoPickerViewController: UIViewController {
     // MARK: - Init
     public init(config: FMPhotoPickerConfig) {
         self.config = config
+        self.albumsManager = FMAlbumsManager(config: config)
         super.init(nibName: "FMPhotoPickerViewController", bundle: Bundle(for: type(of: self)))
     }
     
@@ -88,6 +93,11 @@ public class FMPhotoPickerViewController: UIViewController {
         self.cancelButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
         self.determineButton.setTitle(config.strings["picker_button_select_done"], for: .normal)
         self.determineButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapTitleView))
+        self.titleView.addGestureRecognizer(tapGesture)
+        
+        self.albumTitleLabel.textColor = .black
     }
     
     // MARK: - Target Actions
@@ -97,6 +107,20 @@ public class FMPhotoPickerViewController: UIViewController {
     
     @IBAction func onTapDetermine(_ sender: Any) {
         processDetermination()
+    }
+    
+    @objc func onTapTitleView() {
+        let vc = FMPhotoAlbumViewController(albumsManager: albumsManager)
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.navigationBar.tintColor = .black
+        
+        vc.didSelectAlbum = { [weak self] album in
+            self?.albumTitleLabel.text = album.title
+            self?.selectedAlbum = album
+            self?.requestAndFetchAssets()
+            navVC.dismiss(animated: true, completion: nil)
+        }
+        present(navVC, animated: true, completion: nil)
     }
     
     // MARK: - Logic
@@ -109,10 +133,20 @@ public class FMPhotoPickerViewController: UIViewController {
     }
     
     private func fetchPhotos() {
-        let photoAssets = Helper.getAssets(allowMediaTypes: self.config.mediaTypes)
+        var assetCollection = selectedAlbum?.collection
+        if assetCollection == nil {
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.predicate = NSPredicate(format: "localizedTitle = %@", "Recents")
+            let assetCollections: PHFetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
+            assetCollection = assetCollections.firstObject
+            self.albumTitleLabel.text = assetCollection?.localizedTitle ?? config.strings["all_albums_title"]
+        }
+        
+        let photoAssets = Helper.getAssets(in: assetCollection, allowMediaTypes: self.config.mediaTypes)
         let forceCropType = config.forceCropEnabled ? config.availableCrops.first! : nil
         let fmPhotoAssets = photoAssets.map { FMPhotoAsset(asset: $0, forceCropType: forceCropType) }
-        self.dataSource = FMPhotosDataSource(photoAssets: fmPhotoAssets)
+        let selectedPhotoAssets = (dataSource == nil ? [] : dataSource.selectedPhotoAssets)
+        self.dataSource = FMPhotosDataSource(photoAssets: fmPhotoAssets, selectedPhotoAssets: selectedPhotoAssets)
         
         if self.dataSource.numberOfPhotos > 0 {
             self.imageCollectionView.reloadData()
@@ -143,7 +177,7 @@ public class FMPhotoPickerViewController: UIViewController {
         
         DispatchQueue.global(qos: .userInitiated).async {
             let multiTask = DispatchGroup()
-            for (index, element) in self.dataSource.getSelectedPhotos().enumerated() {
+            for (index, element) in self.dataSource.selectedPhotoAssets.enumerated() {
                 if element.mediaType == .image {
                     multiTask.enter()
                     element.requestFullSizePhoto(cropState: .edited, filterState: .edited) {
@@ -216,9 +250,8 @@ extension FMPhotoPickerViewController: UICollectionViewDataSource {
         - changedIndex: The index of the deselected photocell in the selected list
      */
     public func reloadAffectedCellByChangingSelection(changedIndex: Int) {
-        let affectedList = self.dataSource.affectedSelectedIndexs(changedIndex: changedIndex)
-        let indexPaths = affectedList.map { return IndexPath(row: $0, section: 0) }
-        self.imageCollectionView.reloadItems(at: indexPaths)
+        // TODO after support change album, indexes will inaccurate, so reload all items.
+        self.imageCollectionView.reloadData()
     }
     
     /**
@@ -233,7 +266,7 @@ extension FMPhotoPickerViewController: UICollectionViewDataSource {
 
             var canBeAdded = true
             
-            if self.dataSource.getSelectedPhotos().count >= self.config.maxImageAndVideo {
+            if self.dataSource.selectedPhotoAssets.count >= self.config.maxImageAndVideo {
                 canBeAdded = false
                 let warning = FMWarningView.shared
                 warning.message = String(format: config.strings["picker_warning_over_image_and_video_select_format"]!, self.config.maxImageAndVideo)
@@ -266,7 +299,7 @@ extension FMPhotoPickerViewController: UICollectionViewDataSource {
             }
         } else {  // single selection mode
             var indexPaths = [IndexPath]()
-            self.dataSource.getSelectedPhotos().forEach { photo in
+            self.dataSource.selectedPhotoAssets.forEach { photo in
                 guard let photoIndex = self.dataSource.index(ofPhoto: photo) else { return }
                 indexPaths.append(IndexPath(row: photoIndex, section: 0))
                 self.dataSource.unsetSeclectedForPhoto(atIndex: photoIndex)

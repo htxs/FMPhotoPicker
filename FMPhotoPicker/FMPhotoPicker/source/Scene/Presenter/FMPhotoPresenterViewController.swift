@@ -166,8 +166,8 @@ class FMPhotoPresenterViewController: UIViewController {
         self.determineButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         // update bottom view for the first page that can not handled by PageViewControllerDelegate
         self.updateBottomView()

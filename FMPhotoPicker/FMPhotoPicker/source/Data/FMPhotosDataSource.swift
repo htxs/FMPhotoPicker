@@ -11,53 +11,47 @@ import Photos
 
 class FMPhotosDataSource {
     public private(set) var photoAssets: [FMPhotoAsset]
-    private var selectedPhotoIndexes: [Int]
+    public private(set) var selectedPhotoAssets: [FMPhotoAsset]
     
-    init(photoAssets: [FMPhotoAsset]) {
+    init(photoAssets: [FMPhotoAsset], selectedPhotoAssets: [FMPhotoAsset]) {
         self.photoAssets = photoAssets
-        self.selectedPhotoIndexes = []
+        self.selectedPhotoAssets = selectedPhotoAssets
     }
     
     public func setSeletedForPhoto(atIndex index: Int) {
-        if self.selectedPhotoIndexes.firstIndex(where: { $0 == index }) == nil {
-            self.selectedPhotoIndexes.append(index)
+        if let photo = photo(atIndex: index) {
+            if selectedPhotoAssets.firstIndex(where: { $0.asset == photo.asset }) == nil {
+                selectedPhotoAssets.append(photo)
+            }
         }
     }
     
     public func unsetSeclectedForPhoto(atIndex index: Int) {
-        if let indexInSelectedIndex = self.selectedPhotoIndexes.firstIndex(where: { $0 == index }) {
-            self.selectedPhotoIndexes.remove(at: indexInSelectedIndex)
+        if let photo = photo(atIndex: index) {
+            if let indexInSelectedIndex = selectedPhotoAssets.firstIndex(where: { $0.asset == photo.asset }) {
+                selectedPhotoAssets.remove(at: indexInSelectedIndex)
+            }
         }
     }
     
     public func selectedIndexOfPhoto(atIndex index: Int) -> Int? {
-        return self.selectedPhotoIndexes.firstIndex(where: { $0 == index })
+        if let photo = photo(atIndex: index) {
+            return selectedPhotoAssets.firstIndex(where: { $0.asset == photo.asset })
+        } else {
+            return nil
+        }
     }
     
     public func numberOfSelectedPhoto() -> Int {
-        return self.selectedPhotoIndexes.count
+        return selectedPhotoAssets.count
     }
     
     public func mediaTypeForPhoto(atIndex index: Int) -> FMMediaType? {
-        return self.photo(atIndex: index)?.mediaType
+        return photo(atIndex: index)?.mediaType
     }
     
     public func countSelectedPhoto(byType: FMMediaType) -> Int {
-        return self.getSelectedPhotos().filter { $0.mediaType == byType }.count
-    }
-    
-    public func affectedSelectedIndexs(changedIndex: Int) -> [Int] {
-        return Array(self.selectedPhotoIndexes[changedIndex...])
-    }
-
-    public func getSelectedPhotos() -> [FMPhotoAsset] {
-        var result = [FMPhotoAsset]()
-        self.selectedPhotoIndexes.forEach {
-            if let photo = self.photo(atIndex: $0) {
-                result.append(photo)
-            }
-        }
-        return result
+        return selectedPhotoAssets.filter { $0.mediaType == byType }.count
     }
     
     public var numberOfPhotos: Int {

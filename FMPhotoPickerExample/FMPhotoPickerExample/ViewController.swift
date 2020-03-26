@@ -15,8 +15,9 @@ class ViewController: UIViewController, FMPhotoPickerViewControllerDelegate, FMI
         previewImageView.image = photo
     }
     
-    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith medias: ([UIImage], [URL])) {
         self.dismiss(animated: true, completion: nil)
+        print("iamges: \(medias.0.count), videos: \(medias.1.count)")
     }
     
     @IBOutlet weak var selectMode: UISegmentedControl!
@@ -109,6 +110,7 @@ class ViewController: UIViewController, FMPhotoPickerViewControllerDelegate, FMI
     @IBAction func open(_ sender: Any) {
         let vc = FMPhotoPickerViewController(config: config())
         vc.delegate = self
+        vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
     

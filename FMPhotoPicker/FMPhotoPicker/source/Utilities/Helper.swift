@@ -139,7 +139,7 @@ class Helper: NSObject {
         return pId
     }
     
-    static func getAssets(allowMediaTypes: [FMMediaType]) -> [PHAsset] {
+    static func getAssets(in assetCollection: PHAssetCollection?, allowMediaTypes: [FMMediaType]) -> [PHAsset] {
         let fetchOptions = PHFetchOptions()
         fetchOptions.includeAssetSourceTypes = [.typeUserLibrary, .typeCloudShared, .typeiTunesSynced]
         
@@ -148,7 +148,12 @@ class Helper: NSObject {
         
         fetchOptions.predicate = NSPredicate(format: "mediaType IN %@", allowMediaTypes.map( { $0.value() }))
         
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        var fetchResult: PHFetchResult<PHAsset>
+        if let assetCollection = assetCollection {
+            fetchResult = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
+        } else {
+            fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        }
         
         guard fetchResult.count > 0 else { return [] }
         
