@@ -176,8 +176,8 @@ public class FMImageEditorViewController: UIViewController {
             self.cropMenuButton.setImage(cropTintIcon, for: .normal)
             
             // default color
-            self.filterMenuButton.setTitleColor(kRedColor, for: .normal)
-            self.filterMenuButton.tintColor = kRedColor
+            self.filterMenuButton.setTitleColor(kPurpleColor, for: .normal)
+            self.filterMenuButton.tintColor = kPurpleColor
             
             self.cropMenuButton.setTitleColor(kBlackColor, for: .normal)
             self.cropMenuButton.tintColor = kBlackColor
@@ -326,8 +326,8 @@ public class FMImageEditorViewController: UIViewController {
         }
     }
     @IBAction func onTapOpenFilter(_ sender: Any) {
-        filterMenuButton.tintColor = kRedColor
-        filterMenuButton.setTitleColor(kRedColor, for: .normal)
+        filterMenuButton.tintColor = kPurpleColor
+        filterMenuButton.setTitleColor(kPurpleColor, for: .normal)
         cropMenuButton.tintColor = kBlackColor
         cropMenuButton.setTitleColor(kBlackColor, for: .normal)
         
@@ -343,8 +343,8 @@ public class FMImageEditorViewController: UIViewController {
         filterSubMenuView.image = cropView.getCroppedThumbImage()
     }
     @IBAction func onTapOpenCrop(_ sender: Any) {
-        cropMenuButton.tintColor = kRedColor
-        cropMenuButton.setTitleColor(kRedColor, for: .normal)
+        cropMenuButton.tintColor = kPurpleColor
+        cropMenuButton.setTitleColor(kPurpleColor, for: .normal)
         filterMenuButton.tintColor = kBlackColor
         filterMenuButton.setTitleColor(kBlackColor, for: .normal)
         

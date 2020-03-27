@@ -41,9 +41,9 @@ class FMCropCell: UICollectionViewCell {
     public func setSelected() {
         let tintedImage = imageView.image?.withRenderingMode(.alwaysTemplate)
         imageView.image = tintedImage
-        imageView.tintColor = kRedColor
+        imageView.tintColor = kPurpleColor
         
-        name.textColor = kRedColor
+        name.textColor = kPurpleColor
     }
     
     public func setDeselected() {

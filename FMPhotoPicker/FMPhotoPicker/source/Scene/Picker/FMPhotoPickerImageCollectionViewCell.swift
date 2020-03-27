@@ -31,7 +31,7 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.cellFilterContainer.layer.borderColor = kRedColor.cgColor
+        self.cellFilterContainer.layer.borderColor = kPurpleColor.cgColor
         self.cellFilterContainer.layer.borderWidth = 2
         self.cellFilterContainer.isHidden = true
         self.videoInfoView.isHidden = true
@@ -85,16 +85,21 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
             if self.selectMode == .multiple {
                 self.selectedIndex.isHidden = false
                 self.selectedIndex.text = "\(selectedIndex + 1)"
-                self.selectButton.setImage(UIImage(named: "check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil), for: .normal)
+                let image = UIImage(named: "check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+                self.selectButton.setImage(image, for: .normal)
             } else {
                 self.selectedIndex.isHidden = true
-                self.selectButton.setImage(UIImage(named: "single_check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil), for: .normal)
+                let image = UIImage(named: "single_check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+                self.selectButton.setImage(image, for: .normal)
             }
+            self.selectButton.tintColor = kPurpleColor
             self.cellFilterContainer.isHidden = false
         } else {
             self.selectedIndex.isHidden = true
             self.cellFilterContainer.isHidden = true
-            self.selectButton.setImage(UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil), for: .normal)
+            let image = UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            self.selectButton.setImage(image, for: .normal)
+            self.selectButton.tintColor = kPurpleColor
         }
     }
 }

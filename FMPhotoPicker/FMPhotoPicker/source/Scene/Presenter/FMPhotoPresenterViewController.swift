@@ -211,21 +211,23 @@ class FMPhotoPresenterViewController: UIViewController {
         
             determineButton.isHidden = false
         }
+        numberOfSelectedPhotoContainer.backgroundColor = kPurpleColor
         
         // Update selection status
         if let selectedIndex = self.dataSource.selectedIndexOfPhoto(atIndex: self.currentPhotoIndex) {
             if self.config.selectMode == .multiple {
                 self.selectedIndex.isHidden = false
                 self.selectedIndex.text = "\(selectedIndex + 1)"
-                self.selectedIcon.image = UIImage(named: "check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)
+                self.selectedIcon.image = UIImage(named: "check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             } else {
                 self.selectedIndex.isHidden = true
-                self.selectedIcon.image = UIImage(named: "single_check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)
+                self.selectedIcon.image = UIImage(named: "single_check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             }
         } else {
             self.selectedIndex.isHidden = true
-            self.selectedIcon.image = UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil)
+            self.selectedIcon.image = UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
         }
+        self.selectedIcon.tintColor = kPurpleColor
         
         // Update photo title
         if let photoAsset = self.dataSource.photo(atIndex: self.currentPhotoIndex),

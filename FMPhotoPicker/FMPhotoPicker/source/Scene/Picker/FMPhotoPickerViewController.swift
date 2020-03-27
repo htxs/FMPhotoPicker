@@ -86,6 +86,7 @@ public class FMPhotoPickerViewController: UIViewController {
         
         self.numberOfSelectedPhotoContainer.layer.cornerRadius = self.numberOfSelectedPhotoContainer.frame.size.width / 2
         self.numberOfSelectedPhotoContainer.isHidden = true
+        self.numberOfSelectedPhotoContainer.backgroundColor = kPurpleColor
         self.determineButton.isHidden = true
         
         // set button title
