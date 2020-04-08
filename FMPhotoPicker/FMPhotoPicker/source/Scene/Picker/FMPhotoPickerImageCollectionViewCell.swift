@@ -17,6 +17,7 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cellFilterContainer: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var selectButton: UIButton!
+    @IBOutlet weak var selectedIcon: UIImageView!
     @IBOutlet weak var selectedIndex: UILabel!
     @IBOutlet weak var videoInfoView: UIView!
     @IBOutlet weak var videoLengthLabel: UILabel!
@@ -86,20 +87,20 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
                 self.selectedIndex.isHidden = false
                 self.selectedIndex.text = "\(selectedIndex + 1)"
                 let image = UIImage(named: "check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-                self.selectButton.setImage(image, for: .normal)
+                self.selectedIcon.image = image
             } else {
                 self.selectedIndex.isHidden = true
                 let image = UIImage(named: "single_check_on", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-                self.selectButton.setImage(image, for: .normal)
+                self.selectedIcon.image = image
             }
-            self.selectButton.tintColor = kPurpleColor
+            self.selectedIcon.tintColor = kPurpleColor
             self.cellFilterContainer.isHidden = false
         } else {
             self.selectedIndex.isHidden = true
             self.cellFilterContainer.isHidden = true
-            let image = UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-            self.selectButton.setImage(image, for: .normal)
-            self.selectButton.tintColor = kPurpleColor
+            let image = UIImage(named: "check_off", in: Bundle(for: self.classForCoder), compatibleWith: nil)
+            self.selectedIcon.image = image
+            self.selectedIcon.tintColor = nil
         }
     }
 }
